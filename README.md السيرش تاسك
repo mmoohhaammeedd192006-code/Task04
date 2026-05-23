@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+
+class ExceptionHandlingTasks
+{
+    static void Main()
+    {
+        // Task 1: Duplicate Check
+        try
+        {
+            string numberInput = "1 2 3 4 2"; 
+            CheckForDuplicates(numberInput);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+
+        // Task 2: Vowel Check
+        try
+        {
+            string textInput = "rhythm"; 
+            VerifyContainsVowels(textInput);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    // Program 1: Throws an exception if any numbers are duplicates
+    static void CheckForDuplicates(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return;
+
+        string[] parts = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        HashSet<int> uniqueNumbers = new HashSet<int>();
+
+        foreach (string part in parts)
+        {
+            if (int.TryParse(part, out int number))
+            {
+                if (!uniqueNumbers.Add(number))
+                {
+                    throw new InvalidOperationException($"Duplicate number detected: {number}");
+                }
+            }
+        }
+    }
+
+    // Program 2: Throws an exception if the string does not contain vowels
+    static void VerifyContainsVowels(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            throw new ArgumentException("Input cannot be null or empty.");
+        }
+
+        char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
+
+        if (text.IndexOfAny(vowels) == -1)
+        {
+            throw new ArgumentException("The string does not contain any vowels.");
+        }
+    }
+}
